@@ -7,18 +7,18 @@ async function downloadsImages() {
 
             const response = await axios.get('https://dummyjson.com/products');
             const products = response.data.products;
-            
 
             const archive = archiver('zip', { zlib: { level: 9 } });
             let chunks = [];
             
             archive.on('data', (chunk) => chunks.push(chunk));
             archive.on('end', () => {
+
                 const result = Buffer.concat(chunks);
                 resolve(result);
+
             });
             
-
             for (const product of products) {
                 for (const [index, imageUrl] of product.images.entries()) {
                     try {
@@ -32,8 +32,11 @@ async function downloadsImages() {
             }
             
             archive.finalize();
+            
         } catch (error) {
+
             reject(error);
+
         }
     });
 }

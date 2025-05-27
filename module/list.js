@@ -89,16 +89,20 @@ function getProductsHTML() {
           }
           
           .search-btn:hover {
-            background-color: #5649d1;
+            background-color:rgb(131, 173, 140);
             transform: translateY(-2px);
           }
           
-          .download-all-btn {
-            background-color: var(--success-color);
+          .download-all-src {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color:rgb(18, 211, 169);
             color: white;
+            border-radius: 10px;
+            transition: background-color 0.3s;
           }
           
-          .download-all-btn:hover {
+          .download-all-src:hover {
             background-color: #00a884;
             transform: translateY(-2px);
           }
@@ -233,12 +237,12 @@ function getProductsHTML() {
       <body>
       <div class="action-buttons">
         <form action="/search" method="get">
-          <input type="text" name="q" placeholder="Искать по названию, описанию или ID">
+          <input type="text" name="q" placeholder="Искать по названию">
           <button type="submit" class="search-btn">Найти</button>
         </form>
-        <button class="download-all-btn" onclick="downloadAllImages()">
+        <a class="download-all-src" href="/download">
           Скачать все картинки
-        </button>
+        </a>
       </div>
       <div class="products-grid">`;
 
@@ -254,11 +258,8 @@ function getProductsHTML() {
             <p class="product-description">${product.description}</p>
             <div class="product-price">
               $${product.price}
-              ${discountPercentage}
             </div>
             <div class="product-rating">
-              ★ ${product.rating.toFixed(1)}
-              <span class="product-stock">${product.stock} в наличии</span>
             </div>
             <div class="product-images">
               ${product.images.slice(0, 3).map(img => `<img src="${img}" alt="${product.title}">`).join('')}
