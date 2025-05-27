@@ -41,10 +41,20 @@ async function onRequest(request, response) {
     }
 
     if (request.url.startsWith('/download')) {
-      const html = await downloadsImages();
-      response.writeHead(200, { 'Content-Type': 'text/html' });
-      return response.end(html);
+    try {
+        const zipBuffer = await downloadsImages();
+        response.writeHead(200, {
+            'Content-Type': 'application/zip',
+            'Content-Disposition': 'attachment; filename="all_images.zip"',
+            'Content-Length': zipBuffer.length
+        });
+        return response.end(zipBuffer);
+    } catch (error) {
+        console.error('Ошибка создания архива:', error);
+        response.writeHead(500);
+        return response.end('Ошибка создания архива');
     }
+}
 
     const filePath = path.join(__dirname, 'public', request.url);
     const extname = path.extname(filePath);
